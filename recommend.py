@@ -75,19 +75,19 @@ usersGraph = snap.LoadEdgeList(snap.PUNGraph, directory + 'Edge_List_Users_' + i
 itemsGraph = snap.LoadEdgeList(snap.PUNGraph, directory + 'Edge_List_Items_' + item +'.txt', 0, 1, '\t')
 GCombined = snap.LoadEdgeList(snap.PUNGraph, directory + 'Edge_List_Combined_' + item +'.txt', 0, 1, '\t')
 
-#predictLinksJaccard(GCombined, nodesAtHop, itemNodeIds, userNodeIds, directory)
-#predictLinksNegatedShortestPath(GCombined, nodesAtHop, itemNodeIds, userNodeIds, directory)
-predictLinksAdamicAdar(nodesAtHop, itemNodeIds, userNodeIds, directory, item)
+# predictLinksJaccard(GCombined, nodesAtHop, itemNodeIds, userNodeIds, directory)
+# predictLinksNegatedShortestPath(GCombined, nodesAtHop, itemNodeIds, userNodeIds, directory)
+# predictLinksAdamicAdar(nodesAtHop, itemNodeIds, userNodeIds, directory, item)
 
-with open(directory + 'Jaccards', 'rb') as infile1:
-    scoresJaccard = pickle.load(infile1)
+# with open(directory + 'Jaccards', 'rb') as infile1:
+#     scoresJaccard = pickle.load(infile1)
     
-with open(directory + 'NegatedShortestPath', 'rb') as infile2:
-    scoresNegatedShortedPath = pickle.load(infile2)
+# with open(directory + 'NegatedShortestPath', 'rb') as infile2:
+#     scoresNegatedShortedPath = pickle.load(infile2)
     
-scoresAdamicAdar = {}
-with open(directory + 'AdamicAdar', 'rb') as infile3:
-    scoresAdamicAdar = pickle.load(infile3)
+# scoresAdamicAdar = {}
+# with open(directory + 'AdamicAdar', 'rb') as infile3:
+#     scoresAdamicAdar = pickle.load(infile3)
 
 # PR, EIG
 wtVec = [2.0, 1.5]

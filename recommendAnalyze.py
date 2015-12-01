@@ -1,21 +1,28 @@
 from sys import argv
 import gzip
 import shutil
+import json
 import pickle
 import json
 from matplotlib import pyplot
 
-script, directory, directoryReviews, item, week, yearList = argv
+script, directory, directoryReviews, item, week, year = argv
 
-year = yearList[-1]
-weeks = range(week+1,week+3)
+print year
+weeks = range(int(week)+1,int(week)+3)
 
 newEdges = {} # Ground truth next year
 
 def parseIterator(path):
-	g = gzip.open(path, 'r')
-	for l in g:
-		yield eval(l)
+	with open(path,'r') as f:
+	    for line in f:
+	    	# print line
+	    	yield eval(line)
+	    	# print json.loads(line)
+	     #    yield json.loads(line)
+	# g = gzip.open(path, 'r')
+	# for l in g:
+	# 	yield eval(l)
 
 def findNewEdges():
 	with open(directory + 'Dictionary_Items_' + item + '.txt', 'r') as f1:
@@ -25,8 +32,9 @@ def findNewEdges():
 	with open(directoryReviews + 'reviews_' + item + '_' + year + '.json', 'rb') as f_in, gzip.open(directoryReviews + 'reviews_' + item + '_' + year + '.json.gz', 'wb') as f_out:
 		shutil.copyfileobj(f_in, f_out)
 	for curWeek in weeks:
-		filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json.gz'
-		for review in parseIterator():
+		filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json'
+		for review in parseIterator(filename):
+			print review['reviewerID']
 			if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
 				nodeNumber = reviewerIdUsers[review['reviewerID']]
 				if not nodeNumber in newEdges:

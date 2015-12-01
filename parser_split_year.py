@@ -5,7 +5,7 @@ import json
 import os
 import datetime
 
-directory = '/Users/home/Desktop/Data/'
+directory = './Data/'
 item = 'Cell_Phones_and_Accessories'
 
 fList = {}

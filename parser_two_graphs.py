@@ -133,39 +133,7 @@ def parseReviews(path, goodRating, userItemsFileName, directory):
 
 	with open(directory + 'UserNodeIds', 'wb') as outfile:
 		pickle.dump(userNodeIds, outfile)
-	#users = []
-	#reviews = parseIterator(path)
-	#while True: # Adding the first user with overall > goodRating
-	#	reviewFirst = reviews.next()
-	#	if int(reviewFirst['overall']) >= goodRating:
-	#		year = reviewFirst['reviewTime'].split()
-	#		if int(year[2]) == 2011 or int(year[2]) == 2012:
-	#			break
-	#asinCompare = reviewFirst['asin']
-	#users.append(reviewerIdUsers[reviewFirst['reviewerID']])
-	#while True:
-	#	try:
-	#		while True:
-	#			review = reviews.next()
-	#			if int(review['overall']) >= goodRating:
-	#				year = review['reviewTime'].split()
-	#				if int(year[2]) == 2011 or int(year[2]) == 2012:
-	#					break
-	#		if review['asin'] == asinCompare:
-	#			users.append(reviewerIdUsers[review['reviewerID']])
-	#		else:
-	#			for userSrcIndex in range(0, len(users)):
-	#				for userDstIndex in range(userSrcIndex+1, len(users)):
-	#					GUsers.AddEdge(users[userSrcIndex], users[userDstIndex])
-	#			users[:] = []
-	#			asinCompare = review['asin']
-	#			users.append(reviewerIdUsers[review['reviewerID']])
-	#	except StopIteration:
-	#		for userSrcIndex in range(0, len(users)):
-	#				for userDstIndex in range(userSrcIndex+1, len(users)):
-	#					GUsers.AddEdge(users[userSrcIndex], users[userDstIndex])
-	#		break
-		
+
 def main(argv):
 	argv.pop(0)
 	directory = argv.pop(0)
