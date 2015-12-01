@@ -25,13 +25,13 @@ def findNewEdges():
 	with open(directoryReviews + 'reviews_' + item + '_' + year + '.json', 'rb') as f_in, gzip.open(directoryReviews + 'reviews_' + item + '_' + year + '.json.gz', 'wb') as f_out:
 		shutil.copyfileobj(f_in, f_out)
 	for curWeek in weeks:
-	    filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json.gz'
-    	for review in parseIterator():
-    		if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
-    			nodeNumber = reviewerIdUsers[review['reviewerID']]
-    			if not nodeNumber in newEdges:
-    				newEdges[nodeNumber] = []
-    			newEdges[nodeNumber].append(review['asin'])
+		filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json.gz'
+		for review in parseIterator():
+			if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
+				nodeNumber = reviewerIdUsers[review['reviewerID']]
+				if not nodeNumber in newEdges:
+					newEdges[nodeNumber] = []
+				newEdges[nodeNumber].append(review['asin'])
 
 def checkEdges():
 	with open(directory + 'recommendations','rb') as f:
