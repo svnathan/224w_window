@@ -10,14 +10,15 @@ reset=`tput sgr0`
 
 item='Cell_Phones_and_Accessories'
 goodRating='3'
-year=(2008 2009) # Mention years for parser_two_graphs.py file
-recommendYear=(2010)
+year=(2005 2006) # Mention years for parser_two_graphs.py file
+recommendYear=()
+week='7'
 
 directory=$directory$item"/"
 mkdir -p $directory
 
 T="$(date +%s)"
-#python parser_two_graphs.py $directory $directoryReviews $directoryItems $item $goodRating ${year[*]}
+python parser_two_graphs.py $directory $directoryReviews $directoryItems $item $goodRating $week ${year[*]}
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Parsing in ${T} seconds${reset}"
@@ -97,13 +98,13 @@ T="$(($(date +%s)-T))"
 echo "${green}Completed Finding Nodes at Hop for Users in ${T} seconds${reset}"
 
 T="$(date +%s)"
-python recommend.py $directory $item $nodesAtHopUsersOutput $nodesAtHopItemsOutput
+# python recommend.py $directory $item $nodesAtHopUsersOutput $nodesAtHopItemsOutput
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Finding Recommendations in ${T} seconds${reset}"
 
 T="$(date +%s)"
-python recommendAnalyze.py $directory $directoryReviews $item $recommendYear
+# python recommendAnalyze.py $directory $directoryReviews $item $recommendYear
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Analyzing Recommendations in ${T} seconds${reset}"

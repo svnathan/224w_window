@@ -3,17 +3,21 @@ import gzip
 import time
 import json
 import os
+import datetime
 
-directory = '/Users/home/Desktop/Google Drive/Courses/224W/Project/Data/'
+directory = '/Users/home/Desktop/Data/'
 item = 'Cell_Phones_and_Accessories'
 
-fList = []
+fList = {}
+years = [2005, 2006]
 
 if not os.path.exists(directory+item+'/'):
     os.makedirs(directory+item+'/')
 
-for year in range(1999, 2015):
-	fList.append(open(directory + item + '/reviews_' + item + '_' + str(year) +'.json', 'w'))
+for year in years:
+    fList[year] = {}
+    for week in range(1,54):
+	    fList[year][week] = open(directory + item + '/reviews_' + item + '_' + str(year) + '_' + str(week) +'.json', 'w')
 
 def parseIterator(path):
 	g = gzip.open(path, 'r')
@@ -24,11 +28,21 @@ def parseReviews(path, directory):
 	for review in parseIterator(path):
 		time = review['reviewTime'].split()
 		year = int(time[2])
-		f = fList[year-1999]
-		f.write("%s\n" % review)
+		month = int(time[0])
+		date = int(time[1].replace(',',''))
+		week = datetime.date(year, month, date).isocalendar()[1]
+		try:
+			f = fList[year][week]
+			f.write("%s\n" % review)
+		except Exception as e:
+			pass
 
 def main(argv):
 	parseReviews(directory + 'reviews_' + item + '.json.gz', directory)
+	
+# for yearPointers in fList.itervalues():
+#     for filePointer in yearPointers.itervalues():
+#         filePointer.close()
 
 if __name__ == '__main__':
 	start_time = time.time()

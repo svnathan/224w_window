@@ -173,6 +173,7 @@ def main(argv):
 	directoryItems = argv.pop(0)
 	item = argv.pop(0)
 	goodRating = int(argv.pop(0))
+	week = int(argv.pop(0))
 	yearList = list(argv)
 
 	inFiles = [f for f in listdir(directoryReviews) 
@@ -181,9 +182,16 @@ def main(argv):
 	fileList = []
 
 	for f in inFiles:
+		weekInfo = f.split('_')[-1]
 		for y in yearList:
-			if y in f:
+			if y in f and y != yearList[-1]:
 				fileList.append(directoryReviews+f)
+				print '1'
+			elif y in f:
+				print '2'
+				for w in range(1, week+1):
+					if str(w) in weekInfo:
+						fileList.append(directoryReviews+f)
 
 	with open(directoryReviews+'reviews_'+item+'_combined.json', 'w') as outfile:
 	    for fname in fileList:
