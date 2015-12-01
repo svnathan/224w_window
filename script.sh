@@ -11,10 +11,9 @@ reset=`tput sgr0`
 item='Cell_Phones_and_Accessories'
 goodRating='3'
 year=(2005 2006) # Mention years for parser_two_graphs.py file
-recommendYear=()
-week='7'
 
 directory=$directory$item"/"
+rm -rf $directory
 mkdir -p $directory
 
 T="$(date +%s)"
@@ -104,7 +103,7 @@ T="$(($(date +%s)-T))"
 echo "${green}Completed Finding Recommendations in ${T} seconds${reset}"
 
 T="$(date +%s)"
-# python recommendAnalyze.py $directory $directoryReviews $item $recommendYear
+# python recommendAnalyze.py $directory $directoryReviews $item $week $year
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Analyzing Recommendations in ${T} seconds${reset}"
