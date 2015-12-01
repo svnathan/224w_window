@@ -186,9 +186,7 @@ def main(argv):
 		for y in yearList:
 			if y in f and y != yearList[-1]:
 				fileList.append(directoryReviews+f)
-				print '1'
 			elif y in f:
-				print '2'
 				for w in range(1, week+1):
 					if str(w) in weekInfo:
 						fileList.append(directoryReviews+f)
