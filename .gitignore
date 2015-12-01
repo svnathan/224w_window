@@ -1,2 +1,16 @@
+*.graph
+*.txt
+*.gz
+*.json
+out/*
+input_PR/*
 Data/*
+Cell_Phones_and_Accessories/*
+*Clusters
+*.eps
+*.png
+*.hist
+output_PR/
+Infomap
 workDir.sh
+*.sh~

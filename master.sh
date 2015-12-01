@@ -2,5 +2,5 @@
 
 for (( c=0; c<=6; c=c+2 ))
 do
-   echo "Welcome $c times"
+	sh script.sh $c
 done
