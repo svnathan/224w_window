@@ -9,7 +9,7 @@ directory = './Data/'
 item = 'Cell_Phones_and_Accessories'
 
 fList = {}
-years = [2005, 2006]
+years = [2008, 2009, 2010]
 
 if not os.path.exists(directory+item+'/'):
     os.makedirs(directory+item+'/')

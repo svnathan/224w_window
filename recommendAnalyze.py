@@ -34,7 +34,7 @@ def findNewEdges():
 	for curWeek in weeks:
 		filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json'
 		for review in parseIterator(filename):
-			print review['reviewerID']
+			# print review['reviewerID']
 			if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
 				nodeNumber = reviewerIdUsers[review['reviewerID']]
 				if not nodeNumber in newEdges:
