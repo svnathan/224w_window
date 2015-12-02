@@ -4,6 +4,7 @@ import snap
 import time
 import json
 import math 
+import os
 from os import listdir
 from os.path import isfile, join
 import shutil
@@ -165,6 +166,11 @@ def main(argv):
 	            for line in infile:
 	                outfile.write(line)
 
+	try:
+		os.remove(directoryReviews+'reviews_'+item+'_combined.json.gz')
+	except:
+		pass
+		
 	with open(directoryReviews+'reviews_'+item+'_combined.json', 'rb') as f_in, gzip.open(directoryReviews+'reviews_'+item+'_combined.json.gz', 'wb') as f_out:
 		shutil.copyfileobj(f_in, f_out)
 
