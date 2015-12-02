@@ -9,17 +9,14 @@ from matplotlib import pyplot
 script, directory, directoryReviews, item, week, year = argv
 
 print year
-weeks = range(int(week)+1,int(week)+3)
+weeks = range(int(week)+1,int(week)+53)
 
 newEdges = {} # Ground truth next year
 
 def parseIterator(path):
 	with open(path,'r') as f:
 	    for line in f:
-	    	# print line
 	    	yield eval(line)
-	    	# print json.loads(line)
-	     #    yield json.loads(line)
 	# g = gzip.open(path, 'r')
 	# for l in g:
 	# 	yield eval(l)
@@ -39,7 +36,18 @@ def findNewEdges():
 				nodeNumber = reviewerIdUsers[review['reviewerID']]
 				if not nodeNumber in newEdges:
 					newEdges[nodeNumber] = []
-				newEdges[nodeNumber].append(review['asin'])
+				itemNodeId = int(asinItems[review['asin']])
+				newEdges[nodeNumber].append(itemNodeId)
+	# filename = directoryReviews + 'reviews_' + item + '_' + year + '.json'
+	# for review in parseIterator(filename):
+	# 	# print review['reviewerID']
+	# 	if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
+	# 		nodeNumber = reviewerIdUsers[review['reviewerID']]
+	# 		if not nodeNumber in newEdges:
+	# 			newEdges[nodeNumber] = []
+	# 		# print nodeNumber, '\t', review['asin']
+	# 		itemNodeId = int(asinItems[review['asin']])
+	# 		newEdges[nodeNumber].append(itemNodeId)
 
 def checkEdges():
 	with open(directory + 'recommendations','rb') as f:
