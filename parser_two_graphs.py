@@ -14,6 +14,7 @@ import pickle
 GItems = snap.TUNGraph.New()
 userEdges = Counter()
 asinItems = {} # Key (string) is the asin of the item and value is the nodeId (int) in the graph
+nodeItems = {}
 
 GUsers = snap.TUNGraph.New()
 
@@ -40,6 +41,7 @@ def parseItems(path, directory):
 		GItems.AddNode(itemsNodeId)
 		GCombined.AddNode(itemsNodeId)
 		asinItems[item['asin']] = itemsNodeId
+		nodeItems[itemsNodeId] = item['asin']
 		combinedDict1[itemsNodeId] = item['asin']
 		combinedDict2[item['asin']] = itemsNodeId
 		itemsNodeId +=1
@@ -184,6 +186,9 @@ def main(argv):
 
 	with open(directory + 'Dictionary_Items_' + item + '.txt', 'w') as f1:
 		json.dump(asinItems, f1)
+
+	with open(directory + 'Dictionary_Items_Nodes_' + item + '.txt', 'w') as f3:
+		json.dump(nodeItems, f3)
 
 	userItemsFileName = directory + '_User_Item_' + item + '.txt'
 	
