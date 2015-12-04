@@ -12,8 +12,8 @@ echo "${red}Week $1${reset}"
 
 item='Amazon_Instant_Video'
 goodRating='3'
-year=(2011 2012 2013) # Mention years for parser_two_graphs.py file
-recommendYear=2013
+year=(2010 2011 2012) # Mention years for parser_two_graphs.py file
+recommendYear=2012
 week=$1
 
 bkupTime=$(($(date +'%s * 1000 + %-N / 1000000')))
@@ -39,7 +39,6 @@ infomapItemsOutput=$directory
 cnmItemsFile=$directory"Community_Items_"$item".txt"
 
 T="$(date +%s)"
-#python communitycnm.py $infomapItemsInput $cnmItemsFile
 # Infomap $infomapItemsInput $infomapItemsOutput -z -2 -u
 T="$(($(date +%s)-T))"
 
@@ -50,7 +49,6 @@ infomapUsersOutput=$directory
 cnmUsersFile=$directory"Community_Users_"$item".txt"
 
 T="$(date +%s)"
-#python communitycnm.py $infomapUsersInput $cnmUsersFile
 # Infomap $infomapUsersInput $infomapUsersOutput -z -2 -u
 T="$(($(date +%s)-T))"
 
@@ -63,7 +61,6 @@ clustersItemsOutputDirectory=$directory"Unanalyzed_Items_Clusters/"
 mkdir -p $clustersItemsOutputDirectory
 
 T="$(date +%s)"
-#python create_input_PR_files.py $cnmItemsFile $edgeListItems $clustersItemsOutputDirectory
 # python create_input_PR_files.py $treeItems $edgeListItems $clustersItemsOutputDirectory
 T="$(($(date +%s)-T))"
 
@@ -76,7 +73,6 @@ clustersUsersOutputDirectory=$directory"Unanalyzed_Users_Clusters/"
 mkdir -p $clustersUsersOutputDirectory
 
 T="$(date +%s)"
-#python create_input_PR_files.py $cnmUsersFile $edgeListItems $clustersItemsOutputDirectory
 # python create_input_PR_files.py $treeUsers $edgeListUsers $clustersUsersOutputDirectory
 T="$(($(date +%s)-T))"
 
@@ -103,16 +99,22 @@ T="$(($(date +%s)-T))"
 echo "${green}Completed Finding Nodes at Hop for Users in ${T} seconds${reset}"
 
 T="$(date +%s)"
-python recommend.py $directory $item $nodesAtHopUsersOutput $nodesAtHopItemsOutput
+# python recommend.py $directory $item $nodesAtHopUsersOutput $nodesAtHopItemsOutput
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Finding Recommendations in ${T} seconds${reset}"
 
 T="$(date +%s)"
-python recommendAnalyze.py $directory $directoryReviews $item $week $recommendYear
+# python recommendAnalyze.py $directory $directoryReviews $item $week $recommendYear
 T="$(($(date +%s)-T))"
 
 echo "${green}Completed Analyzing Recommendations in ${T} seconds${reset}"
+
+T="$(date +%s)"
+python combineRecommendations.py $directory $directoryReviews $item $recommendYear
+T="$(($(date +%s)-T))"
+
+echo "${green}Completed Analyzing Combined Recommendations in ${T} seconds${reset}"
 
 TotalTime="$(($(date +%s)-TotalTime))"
 

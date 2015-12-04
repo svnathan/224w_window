@@ -1,24 +1,38 @@
+import pickle
 from sys import argv
 import gzip
 import shutil
 import json
-import pickle
-import json
 from matplotlib import pyplot
 
-script, directory, directoryReviews, item, week, year = argv
-
-weeks = range(int(week)+1,int(week)+13)
+script, directory, directoryReviews, item, year = argv
 
 newEdges = {} # Ground truth next year
+
+def combiner():
+	prefix = item+'_'
+	suffix = '/recommendations'
+	folders = range(0,41,1)
+
+	files = [prefix+str(x)+suffix for x in folders]
+
+	reco = {}
+	for filename in files:
+		with open(filename,'rb') as f:
+			data = pickle.load(f)
+			for comm in data:
+				for user,rollReco in comm.iteritems():
+					if not user in reco:
+						reco[user] = set()
+					reco[user].update(set(rollReco))
+
+	with open('.'+suffix,'wb') as f:
+		pickle.dump(reco,f)
 
 def parseIterator(path):
 	with open(path,'r') as f:
 	    for line in f:
 	    	yield eval(line)
-	# g = gzip.open(path, 'r')
-	# for l in g:
-	# 	yield eval(l)
 
 def findNewEdges():
 	with open(directory + 'Dictionary_Items_' + item + '.txt', 'r') as f1:
@@ -27,16 +41,14 @@ def findNewEdges():
 		reviewerIdUsers = json.load(f2)
 	with open(directoryReviews + 'reviews_' + item + '_' + year + '.json', 'rb') as f_in, gzip.open(directoryReviews + 'reviews_' + item + '_' + year + '.json.gz', 'wb') as f_out:
 		shutil.copyfileobj(f_in, f_out)
-	for curWeek in weeks:
-		filename = directoryReviews + 'reviews_' + item + '_' + year + '_' + str(curWeek) + '.json'
-		for review in parseIterator(filename):
-			# print review['reviewerID']
-			if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
-				nodeNumber = reviewerIdUsers[review['reviewerID']]
-				if not nodeNumber in newEdges:
-					newEdges[nodeNumber] = []
-				itemNodeId = int(asinItems[review['asin']])
-				newEdges[nodeNumber].append(itemNodeId)
+	filename = directoryReviews + 'reviews_' + item + '_' + year + '.json'
+	for review in parseIterator(filename):
+		if review['reviewerID'] in reviewerIdUsers: # Check if user in the years we predicted from
+			nodeNumber = reviewerIdUsers[review['reviewerID']]
+			if not nodeNumber in newEdges:
+				newEdges[nodeNumber] = []
+			itemNodeId = int(asinItems[review['asin']])
+			newEdges[nodeNumber].append(itemNodeId)
 
 def checkEdges():
 	with open(directory + 'recommendations','rb') as f:
@@ -75,20 +87,13 @@ def checkEdges():
 	# print zip(commScores, commPreds)
 	# print allUsers
 	reslt = sum(X)/sum(allUsers)
-	string = 'Year: %s\t Week: %s\t Score: %0.4f' %(year, week, reslt)
+	string = '<--COMBINE--> \t Year: %s\t Score: %0.4f' %(year, reslt)
 	print string 
-	pyplot.plot(range(len(predictions)), commScores, 'b-', label = 'Correct')
-	#pyplot.plot(range(len(predictions)), commPreds, 'r--', label = 'Correct')
-	pyplot.title('Cluster vs. Percentage of Predictions')
-	pyplot.xlabel('Cluster')
 	with open(directory+'../finalResults.txt', 'a') as myfile:
 		myfile.write(string+'\n')
-	pyplot.ylabel('Percentage of Correct Predictions')
-	pyplot.legend(loc = 'upper right')
-	# pyplot.show()
-	pyplot.savefig('Rec.png')
 
 def main(argv):
+	# combiner()
 	findNewEdges()
 	checkEdges()
 
